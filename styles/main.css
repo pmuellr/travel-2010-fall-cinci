@@ -1,0 +1,49 @@
+body {
+    font-family:           sans-serif;
+    margin:                0;
+    padding:               0;
+}                          
+                           
+#title-bar {               
+    font-size:             120%;
+    padding:               0.5em 0.0em;
+    margin:                0.0em;
+    background:            #AAF;
+    font-weight:           bold;
+}                          
+                           
+#section-title {           
+    padding:               0.5em;
+    margin:                0.0em;
+    background:            #AAF;
+    white-space:           pre;
+}                          
+                           
+#back-button {             
+    padding:               0.2em 0.5em;
+    margin:                0.0em;
+    margin-left:           0.2em;
+    background:            #FAA;
+    border:                thin solid #000;
+    -moz-border-radius:    0.5em; 
+    -webkit-border-radius: 0.5em;
+}                          
+                           
+section {                  
+    margin:                1.0em;
+}                          
+                           
+div.section {              
+    margin:                0.5em;
+}                          
+                           
+.menu-item {               
+    font-size:             120%;
+    font-weight:           bold;
+    margin:                0.5em 0.0em;
+    padding:               0.2em 0.8em;
+    background:            #DDD;
+    border:                thin solid #000;
+    -moz-border-radius:    0.5em; 
+    -webkit-border-radius: 0.5em;
+}
