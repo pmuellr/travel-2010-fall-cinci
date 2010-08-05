@@ -1,7 +1,6 @@
 //-----------------------------------------------------------------------------
 // Copyright (c) 2010 Patrick Mueller
-// Licensed under the MIT license: 
-// http://www.opensource.org/licenses/mit-license.php
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
 //-----------------------------------------------------------------------------
 
 (function(){
@@ -13,11 +12,12 @@ this.scooj = {}
 //----------------------------------------------------------------------------
 // scooj properties
 //----------------------------------------------------------------------------
-scooj._global         = this
-scooj._packages       = {}
-scooj._classes        = {}
-scooj._currentPackage = null
-scooj._currentClass   = null
+scooj._global             = this
+scooj._packages           = {}
+scooj._classes            = {}
+scooj._currentPackage     = null
+scooj._currentClass       = null
+scooj._ccurentDescription = null
 
 scooj.debug           = false
 
@@ -70,6 +70,7 @@ defScooj(function defClass(superclass, func) {
     func._scooj.methods = {}
     func._scooj.staticMethods = {}
     
+    
     scooj._classes[fullClassName] = func
     
     scooj._currentClass = func
@@ -111,7 +112,22 @@ defScooj(function defSuper() {
 
     return getSuperMethod(klass)
 })
-        
+
+//----------------------------------------------------------------------------
+// scooj.getMethodName()
+//----------------------------------------------------------------------------
+defScooj(function getMethodName(_arguments) {
+    var method = _arguments.callee
+    if (!method.isMethod) return method.name
+    
+    var klass = method.owningClass
+    if (!klass) return method.name
+    if (!klass.name) return method.name
+    
+    var sep = method.isStatic ? "::" : "."
+    
+    return klass.name + sep + method.name
+})
 
 //----------------------------------------------------------------------------
 // scooj.installGlobals()
@@ -168,9 +184,24 @@ function getSuperMethod(owningClass) {
     var superclass = owningClass._scooj.superclass
     
     return function $super(thisp, methodName) {
-        var superFunc = superclass.prototype[methodName]
-        if (!superFunc) superFunc = superclass
-
+        if (typeof methodName == "function") {
+            methodName = methodName.name
+            if (!methodName) {
+                throw new Error("super function called with name-challenged function")
+            }
+        }
+        
+        var superFunc
+        if (!methodName) {
+            superFunc = superclass
+        }
+        else {
+            superFunc = superclass.prototype[methodName]
+            if (!superFunc || (typeof superFunc != "funtion")) {
+                throw new Error("super class has no method named '" + methodName + "'")
+            }
+        }
+        
         return superFunc.apply(thisp, Array.prototype.splice.call(arguments, 2))
     }
 }

@@ -4,17 +4,11 @@
 //-----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
-window.addEventListener("load", onLoad, false)
-
-var Body
+(function(){
 
 //----------------------------------------------------------------------------
-function onLoad() {
-    Body = document.getElementsByTagName("body")[0]
-    
-    TitleBar.install()
-    Transcript.install()
-    Section.processDocument()
-    
-    Transcript.log(scooj.getMethodName(arguments) + " complete")
-}
+defClass("Section", function AutoMenuSection() {
+})
+
+//----------------------------------------------------------------------------
+})()

@@ -1,0 +1,18 @@
+#-------------------------------------------------
+url http://maps.google.com/maps/ms?f=q&source=s_q&hl=en&geocode=&ie=UTF8&hq=hotels&hnear=&msa=0&msid=105326083095274213033.00048b31aa5c6b29dff73&ll=37.326489,-81.68335&spn=6.349525,10.250244&z=7&output=kml
+
+#-------------------------------------------------
+map Lewisburg
+
+place Greenbrier River Trail
+place Hampton Inn Lewisburg
+place Holiday Inn Express Lewisburg
+
+#-------------------------------------------------
+map Marion
+
+place Mt Mitchell SP
+place Hampton Inn Marion
+place Switzerland Inn
+place Pine Valley Motel
+

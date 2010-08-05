@@ -1,3 +1,8 @@
+//-----------------------------------------------------------------------------
+// Copyright (c) 2010 Patrick Mueller
+// Licensed under the MIT license: http://www.opensource.org/licenses/mit-license.php
+//-----------------------------------------------------------------------------
+
 //----------------------------------------------------------------------------
 (function(){
 
@@ -6,63 +11,60 @@ defClass(function Util() {
 })
 
 //----------------------------------------------------------------------------
+defStaticMethod(function error(message) {
+    Transcript.log(message)
+})
+
+//----------------------------------------------------------------------------
 defStaticMethod(function createElement(elementName, properties) {
     var element = document.createElement(elementName)
     
-    for (var propertyName in properties) {
-        element[propertyName] = properties[propertyName]
-    }
+    _(properties).each(
+        function(value, key) { 
+            element[key] = value
+        }
+    )
     
     return element
 })
 
 //----------------------------------------------------------------------------
 defStaticMethod(function deleteElements(element) {
-    if (!element) return
-    
-    for (var i=0; i<arguments.length; i++) {
-        var element = arguments[i]
-        element.parentNode.removeChild(element)
-    }
+    _(arguments).toArray().each( 
+        function(element) {
+            element.parentNode.removeChild(element)
+        }
+    )
 })
 
 //----------------------------------------------------------------------------
 defStaticMethod(function appendElements(parent, element) {
-    if (!element) return
-    
-    for (var i=1; i<arguments.length; i++) {
-        var element = arguments[i]
-        parent.appendChild(element)
-    }
+    _(arguments).toArray().rest().each( 
+        function(element) {
+            parent.appendChild(element)
+        }
+    )
 })
 
 //----------------------------------------------------------------------------
 defStaticMethod(function prependElements(parent, element) {
-    if (!element) return
-    
-
-    for (var i=1; i<arguments.length; i++) {
-        var element = arguments[i]
-        
-        if (!parent.firstChild) {
-            Util.appendElement(parent, element)
+    _(arguments).toArray().rest().each( 
+        function(element) {
+            if (!parent.firstChild) {
+                Util.appendElements(parent, element)
+            }
+            else {
+                parent.insertBefore(element, parent.firstChild)
+            }
         }
-        else {
-            parent.insertBefore(element, parent.firstChild)
-        }
-    }
+    )
 })
 
 //----------------------------------------------------------------------------
 defStaticMethod(function hasClass(element, className) {
     var classNames = element.className || ""
-    classNames = classNames.split(" ")
     
-    for (var i=0; i<classNames.length; i++) {
-        if (className == classNames[i]) return true
-    }
-    
-    return false
+    return _(classNames.split(" ")).include(className)
 })
 
 //----------------------------------------------------------------------------
@@ -78,16 +80,11 @@ defStaticMethod(function addClass(element, className) {
 defStaticMethod(function deleteClass(element, className) {
     if (!Util.hasClass(element, className)) return
 
-    var classNames = element.className || ""
-    classNames = classNames.split(" ")
-    
-    var newClassNames = []
-    for (var i=0; i<classNames.length; i++) {
-        if (className == classNames[i]) continue
-        newClassNames.push(classNames[i])
-    }
-    
-    element.className = newClassNames.join(" ")
+    element.className = _(element.className.split(" ")).reject( 
+        function(value) {
+            return value == className
+        }
+    ).join(" ")
 })
 
 
